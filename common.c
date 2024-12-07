@@ -85,14 +85,30 @@ void registerNewUser() {
         printf("Cannot register more users.\n");
         return;
     }
+
     printf("Enter Username: ");
     scanf("%s", users[userCount].username);
+
     printf("Enter Phone Number: ");
     scanf("%s", users[userCount].phoneNumber);
+
     printf("Enter Password: ");
     scanf("%s", users[userCount].password);
-    printf("Enter Role (Admin/Staff/Customer): ");
-    scanf("%s", users[userCount].role);
+
+    while (1) {
+        printf("Enter Role (Admin/Staff/Customer): ");
+        scanf("%s", users[userCount].role);
+
+        // Validate the role input
+        if (strcmp(users[userCount].role, "Admin") == 0 || 
+            strcmp(users[userCount].role, "Staff") == 0 || 
+            strcmp(users[userCount].role, "Customer") == 0) {
+            break; // Valid role, exit the loop
+        } else {
+            printf("Invalid role. Please enter 'Admin', 'Staff', or 'Customer' only.\n");
+        }
+    }
+
     userCount++;
     saveUsers();
     printf("User registered successfully.\n");

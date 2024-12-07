@@ -1,2 +1,2 @@
-kabir 123 pass Staff
-sulav 123 pass Customer
+ram 123 pass Staff
+sam 123 pass Customer

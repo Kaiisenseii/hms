@@ -2,6 +2,8 @@
 #include "customer.h"
 #include "common.h"
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 void customerMenu() {
     char username[30], password[20];
@@ -53,6 +55,53 @@ void searchRooms() {
     }
 }
 
+int isValidDate(char *date) {
+    // Check the format YYYY-MM-DD
+    if (strlen(date) != 10 || date[4] != '-' || date[7] != '-') {
+        return 0;
+    }
+
+    // Extract year, month, and day
+    char yearStr[5], monthStr[3], dayStr[3];
+    strncpy(yearStr, date, 4);
+    yearStr[4] = '\0';
+    strncpy(monthStr, date + 5, 2);
+    monthStr[2] = '\0';
+    strncpy(dayStr, date + 8, 2);
+    dayStr[2] = '\0';
+
+    // Check if year, month, and day are numeric
+    if (!isdigit(yearStr[0]) || !isdigit(yearStr[1]) || !isdigit(yearStr[2]) || !isdigit(yearStr[3]) ||
+        !isdigit(monthStr[0]) || !isdigit(monthStr[1]) || !isdigit(dayStr[0]) || !isdigit(dayStr[1])) {
+        return 0;
+    }
+
+    int year = atoi(yearStr);
+    int month = atoi(monthStr);
+    int day = atoi(dayStr);
+
+    // Validate year range
+    if (year < 1900 || year > 2100) {
+        return 0;
+    }
+
+    // Validate month
+    if (month < 1 || month > 12) {
+        return 0;
+    }
+
+    // Validate day based on month
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+        daysInMonth[1] = 29; // Leap year
+    }
+    if (day < 1 || day > daysInMonth[month - 1]) {
+        return 0;
+    }
+
+    return 1; // Valid date
+}
+
 void makeReservation(char *username) {
     loadRooms();
     loadReservations();
@@ -76,10 +125,27 @@ void makeReservation(char *username) {
         return;
     }
 
-    printf("Enter Check-in Date (YYYY-MM-DD): ");
-    scanf("%s", checkInDate);
-    printf("Enter Check-out Date (YYYY-MM-DD): ");
-    scanf("%s", checkOutDate);
+    // Validate check-in date
+    while (1) {
+        printf("Enter Check-in Date (YYYY-MM-DD): ");
+        scanf("%s", checkInDate);
+        if (isValidDate(checkInDate)) {
+            break;
+        } else {
+            printf("Invalid date format. Please enter a valid date in YYYY-MM-DD format.\n");
+        }
+    }
+
+    // Validate check-out date
+    while (1) {
+        printf("Enter Check-out Date (YYYY-MM-DD): ");
+        scanf("%s", checkOutDate);
+        if (isValidDate(checkOutDate)) {
+            break;
+        } else {
+            printf("Invalid date format. Please enter a valid date in YYYY-MM-DD format.\n");
+        }
+    }
 
     // Create a new reservation
     reservations[reservationCount].reservationID = reservationCount + 1;
@@ -102,7 +168,6 @@ void makeReservation(char *username) {
 
     printf("Reservation successful! Your Reservation ID is %d.\n", reservationCount);
 }
-
 
 void cancelReservation(char *username) {
      loadReservations();
