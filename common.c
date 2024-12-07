@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "common.h"
 
 User users[MAX_USERS];
@@ -10,6 +11,31 @@ int roomCount = 0;
 
 Reservation reservations[MAX_RESERVATIONS];
 int reservationCount = 0;
+
+
+int getValidatedInput(int min, int max) {
+    char buffer[100];
+    int value;
+
+    while (1) {
+        // Read input as a string
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+            // Try to convert the input to an integer
+            if (sscanf(buffer, "%d", &value) == 1) {
+                // Check if the integer is within the valid range
+                if (value >= min && value <= max) {
+                    return value; // Valid input, return the value
+                } else {
+                    printf("Invalid choice.\nPlease enter a number between %d and %d: ", min, max);
+                }
+            } else {
+                printf("Invalid input.\nPlease enter a number between %d and %d: ", min, max);
+            }
+        } else {
+            printf("Error reading input. Please try again.\n");
+        }
+    }
+}
 
 void loadUsers() {
     FILE *file = fopen("users.txt", "r");

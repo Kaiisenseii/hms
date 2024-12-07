@@ -37,6 +37,7 @@ extern Reservation reservations[MAX_RESERVATIONS];
 extern int reservationCount;
 
 // Function declarations
+int getValidatedInput(int min, int max);
 void loadUsers();
 void saveUsers();
 void loadRooms();

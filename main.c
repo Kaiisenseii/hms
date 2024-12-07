@@ -3,6 +3,7 @@
 #include "admin.h"
 #include "staff.h"
 #include "customer.h"
+#include "common.h"
 #include "guest.h"
 
 int main() {
@@ -12,7 +13,8 @@ int main() {
         printf("\nWelcome to the Hotel Management System\n");
         printf("1. Administrator\n2. Hotel Staff\n3. Customer\n4. Guest\n5. Exit\n");
         printf("Enter your role (1-5): ");
-        scanf("%d", &role);
+
+        role = getValidatedInput(1, 5);
 
         switch (role) {
             case 1:
@@ -28,7 +30,7 @@ int main() {
                 guestMenu();
                 break;
             case 5:
-                printf("Exiting the system. Goodbye!\n");
+                printf("Exiting the system.\n");
                 exit(0);
             default:
                 printf("Invalid choice. Try again.\n");

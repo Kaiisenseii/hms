@@ -5,6 +5,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+
+
+
 void customerMenu() {
     char username[30], password[20];
     printf("\n--- Customer Login ---\n");
@@ -23,7 +26,9 @@ void customerMenu() {
         printf("\n--- Customer Menu ---\n");
         printf("1. Search Rooms\n2. Make Reservation\n3. Cancel Reservation\n4. View Booking History\n5. Logout\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        
+        choice = getValidatedInput(1, 5);
+
         switch (choice) {
             case 1:
                 searchRooms();
@@ -46,14 +51,26 @@ void customerMenu() {
 }
 
 void searchRooms() {
-    loadRooms();
+    loadRooms(); // Load the room data from storage
+
+    int availableRoomCount = 0; // Counter for available rooms
+
     printf("\nAvailable Rooms:\n");
+
+    // Loop through all rooms to find available ones
     for (int i = 0; i < roomCount; i++) {
         if (rooms[i].isAvailable) {
             printf("Room %d: %s ($%.2f)\n", rooms[i].roomNumber, rooms[i].roomType, rooms[i].rate);
+            availableRoomCount++;
         }
     }
+
+    // If no rooms are available, display a meaningful message
+    if (availableRoomCount == 0) {
+        printf("No available rooms at the moment. Please check back later.\n");
+    }
 }
+
 
 int isValidDate(char *date) {
     // Check the format YYYY-MM-DD

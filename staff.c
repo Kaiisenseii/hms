@@ -24,7 +24,9 @@ void staffMenu() {
         printf("4. View Booking History\n");
         printf("5. Logout\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        
+        choice = getValidatedInput(1, 5);
+
         switch (choice) {
             case 1:
                 manageReservations();
@@ -128,7 +130,8 @@ void checkInOutGuests() {
         printf("\n--- Check In/Out Menu ---\n");
         printf("1. Check In Guest\n2. Check Out Guest\n3. Back to Staff Menu\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        
+        choice = getValidatedInput(1, 3);
 
         switch (choice) {
             case 1:

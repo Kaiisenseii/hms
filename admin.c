@@ -21,7 +21,9 @@ void adminMenu() {
         printf("\n--- Admin Menu ---\n");
         printf("1. Register New User\n2. Manage Hotel Rooms\n3. View Reservations\n4. Logout\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+
+        choice = getValidatedInput(1, 4);
+
         switch (choice) {
             case 1:
                 registerNewUser();
@@ -62,7 +64,7 @@ void manageHotelRooms() {
         // Menu options
         printf("\n1. Add Room\n2. Update Room\n3. Remove Room\n4. Back\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        choice = getValidatedInput(1, 4);
         switch (choice) {
             case 1:
                 addRoom();
